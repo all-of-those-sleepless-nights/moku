@@ -1,7 +1,7 @@
-import { Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
+import { RouterProvider } from "react-router-dom";
 import { useEffect } from "react";
 import Lenis from "lenis";
+import { router } from "./components/routes/router";
 
 function App() {
   useEffect(() => {
@@ -18,11 +18,7 @@ function App() {
     requestAnimationFrame(raf);
   }, []);
 
-  return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-    </Routes>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
