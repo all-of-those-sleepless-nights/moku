@@ -1,5 +1,4 @@
 import EverydayEssentials from "../components/sections/everyday-essentials/everyday-essentials";
-import PublicFooter from "../components/footers/public-footer";
 import HeroBanner from "../components/landing/hero-banner";
 import ProvenFavourites from "../components/sections/proven-favourites/proven-favourites";
 import StyleItYourWay from "../components/sections/style-it-your-way/style-it-your-way";
@@ -12,12 +11,11 @@ function HomePage() {
       <HeroBanner />
 
       <EverydayEssentials />
-      <ProvenFavourites/>
-      <StyleItYourWay/>
-      <ValuePropositionsList/>
+      <ProvenFavourites />
+      <StyleItYourWay />
+      <ValuePropositionsList />
 
-      <NewsList/>
-
+      <NewsList />
     </body>
   );
 }
