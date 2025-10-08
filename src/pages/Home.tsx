@@ -18,7 +18,6 @@ function HomePage() {
 
       <NewsList/>
 
-      <PublicFooter />
     </body>
   );
 }

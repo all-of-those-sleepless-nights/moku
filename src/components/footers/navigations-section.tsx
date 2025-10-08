@@ -14,7 +14,7 @@ function NavigationSection() {
         </label>
         {generalNavigationLinks.map((item, i) => (
           <div key={i}>
-            <a className="hover:underline hover:cursor-pointer">{item.label}</a>
+            <a className="hover:underline hover:cursor-pointer" href={item.href}>{item.label}</a>
           </div>
         ))}
       </div>
@@ -22,7 +22,7 @@ function NavigationSection() {
         <label className="capitalize text-2xl">{navigationGroups.Info}</label>
         {infoNavigationLinks.map((item, i) => (
           <div key={i}>
-            <a className="hover:underline hover:cursor-pointer">{item.label}</a>
+            <a className="hover:underline hover:cursor-pointer" href={item.href}>{item.label}</a>
           </div>
         ))}
       </div>
@@ -30,7 +30,7 @@ function NavigationSection() {
         <label className="capitalize text-2xl">{navigationGroups.Social}</label>
         {socialNavigationLinks.map((item, i) => (
           <div key={i}>
-            <a className="hover:underline hover:cursor-pointer">{item.label}</a>
+            <a className="hover:underline hover:cursor-pointer" href={item.href}>{item.label}</a>
           </div>
         ))}
       </div>
