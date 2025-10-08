@@ -3,7 +3,7 @@ import PublicHeader from "../headers/public-header";
 
 function PublicLayout() {
   return (
-    <div className="flex flex-col min-h-screen w-full relative">
+    <div className="flex flex-col min-h-screen w-full">
       <PublicHeader />
       <div className="flex-grow w-full">
         <Outlet />
