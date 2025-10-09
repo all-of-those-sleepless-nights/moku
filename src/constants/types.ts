@@ -17,3 +17,13 @@ export type sunglassesProduct = {
   product_information: string;
   product_benefits: string[];
 };
+
+export type cartItem = {
+  product_id: string;
+  product_name: string;
+  product_image: string;
+  size: productSizes;
+  quantity: number;
+  price_per_unit: number;
+  total_price: number;
+};

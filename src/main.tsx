@@ -3,11 +3,14 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
 import { ProductProvider } from "./contexts/product-context.tsx";
+import { CartProvider } from "./contexts/shopping-cart.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ProductProvider>
-      <App />
+      <CartProvider>
+        <App />
+      </CartProvider>
     </ProductProvider>
   </StrictMode>
 );
