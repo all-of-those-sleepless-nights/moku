@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
 import type { productSizes, sunglassesProduct } from "../constants/types";
+import { products as productsCatalogue } from "../constants/products";
 
 type productContext = {
   products: sunglassesProduct[];
@@ -14,7 +15,8 @@ type productContext = {
 const ProductContext = createContext<productContext | undefined>(undefined);
 
 export const ProductProvider = ({ children }: { children: ReactNode }) => {
-  const [products, setProducts] = useState<sunglassesProduct[]>([]);
+  const [products, setProducts] =
+    useState<sunglassesProduct[]>(productsCatalogue);
 
   const removeProduct = (
     product_id: string,
