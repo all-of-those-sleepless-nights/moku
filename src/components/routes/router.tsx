@@ -6,6 +6,8 @@ import Collection from "../../pages/Collection";
 import About from "../../pages/About";
 import NotFound from "../../pages/404";
 import News from "../../pages/News";
+import ProductDetailsPage from "../../pages/Product-Details";
+import ContactPage from "../../pages/Contact";
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +24,14 @@ export const router = createBrowserRouter([
       {
         path: "/news",
         Component: News,
+      },
+      {
+        path: "/product/:id",
+        Component: ProductDetailsPage,
+      },
+      {
+        path: "/contact",
+        Component: ContactPage,
       },
     ],
   },
