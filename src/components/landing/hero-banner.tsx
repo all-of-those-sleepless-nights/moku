@@ -8,12 +8,23 @@ import {
 import backgroundImage from "../../assets/hero.jpg";
 
 function HeroBanner() {
+  const mokuHeader = "Moku .";
+  const [displayMokuHeader, setDisplayMokuHeader] = useState(false);
+
   const [size] = useState<DOMRect | null>(null);
   const imageRef = useRef<HTMLImageElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const maskX = useMotionValue(0);
   const maskY = useMotionValue(0);
-  const maskSize = useMotionValue(100);
+
+  // Get base mask size based on screen size (2xl = 1536px)
+  const getBaseMaskSize = () =>
+    window.innerWidth >= 750 ? 125 : window.innerWidth >= 576 ? 115 : 105;
+  const maskSize = useMotionValue(getBaseMaskSize());
+
+  // Calculate reduced size (75% of base) and radius (same as base)
+  const getReducedSize = () => getBaseMaskSize() * 0.75;
+  const [radius, setRadius] = useState(getBaseMaskSize());
 
   const maskImage = useMotionTemplate`radial-gradient(circle at ${maskX}px ${maskY}px, transparent 0px, transparent ${maskSize}px, black ${maskSize}px)`;
 
@@ -22,8 +33,7 @@ function HeroBanner() {
   const IMAGE_HEIGHT = 2731;
   const FOCAL_X = 2048.08;
   const FOCAL_Y = 1033;
-  const text = "Emphasize Your Own Style • Emphasize Your Own Style • ";
-  const radius = 100;
+  const text = "Emphasize Your Own Style • ";
 
   // Calculate percentages
   const focalXPercent = FOCAL_X / IMAGE_WIDTH; // 0.50002
@@ -68,6 +78,20 @@ function HeroBanner() {
       maskY.set(y);
     };
 
+    const updateMaskSize = () => {
+      const baseSize = getBaseMaskSize();
+      maskSize.set(baseSize);
+      setRadius(baseSize);
+    };
+
+    const handleResize = () => {
+      updatePosition();
+      updateMaskSize();
+    };
+
+    // Initial radius update
+    updateMaskSize();
+
     // Initial position after image loads
     const img = imageRef.current;
     if (img) {
@@ -79,18 +103,18 @@ function HeroBanner() {
     }
 
     // Update on resize
-    window.addEventListener("resize", updatePosition);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener("resize", updatePosition);
+      window.removeEventListener("resize", handleResize);
       if (img) {
         img.removeEventListener("load", updatePosition);
       }
     };
-  }, [maskX, maskY]);
+  }, [maskX, maskY, maskSize]);
 
   return (
-    <section className="w-screen h-screen sticky top-0 flex items-center justify-center overflow-hidden">
+    <section className="h-screen sticky top-0 flex items-center justify-center overflow-hidden">
       <div
         ref={containerRef}
         className="relative w-screen h-screen overflow-hidden"
@@ -103,10 +127,11 @@ function HeroBanner() {
         />
         <motion.div
           className="absolute inset-0 bg-black/60"
-          onHoverStart={() => !size && animate(maskSize, 75)}
+          onHoverStart={() => !size && animate(maskSize, getReducedSize())}
           onHoverEnd={() => {
             const { x, y } = calculateFocalPosition();
-            animate(maskSize, 100);
+            const baseSize = getBaseMaskSize();
+            animate(maskSize, baseSize);
             animate(maskX, x, { duration: 0.5 });
             animate(maskY, y, { duration: 0.5 });
           }}
@@ -151,14 +176,108 @@ function HeroBanner() {
                 },${radius - 20} 0 1,1 -${(radius - 20) * 2},0`}
               />
             </defs>
-            <text className="text-sm font-bold fill-black shadow-lg shadow-white uppercase tracking-wider">
+            <text className="text-sm lg:text-base xl:text-lg font-bold fill-red-700 shadow-2xl shadow-red-600 uppercase tracking-wider">
               <textPath href="#circlePath" startOffset="0%">
+                {text}
+              </textPath>
+              <textPath href="#circlePath" startOffset="50%">
                 {text}
               </textPath>
             </text>
           </svg>
         </motion.div>
       </div>
+
+      <motion.a
+        initial="initial"
+        animate="animated"
+        className={`text-3xl md:text-5xl text-white shadow-xl font-bold font-serif absolute bottom-2 left-2 whitespace-nowrap overflow-hidden z-10 ${
+          displayMokuHeader && "hidden"
+        }`}
+        style={{ lineHeight: 0.85 }}
+        onAnimationComplete={() => {
+          setDisplayMokuHeader(true);
+        }}
+      >
+        <div>
+          {mokuHeader.split("").map((l, i) => {
+            return (
+              <motion.span
+                key={i}
+                variants={{
+                  initial: { y: 0 },
+                  animated: { y: "-100%" },
+                }}
+                transition={{ delay: 3 + 0.1 * i }}
+                className="inline-block text-white"
+              >
+                {l}
+              </motion.span>
+            );
+          })}
+        </div>
+        <div className="absolute inset-0">
+          {mokuHeader.split("").map((l, i) => {
+            return (
+              <motion.span
+                key={i}
+                variants={{
+                  initial: { y: "100%" },
+                  animated: { y: 0 },
+                }}
+                transition={{ delay: 4.5 + 0.1 * i }}
+                className="inline-block"
+              >
+                {l}
+              </motion.span>
+            );
+          })}
+        </div>
+      </motion.a>
+
+      <motion.a
+        initial="initial"
+        whileHover="hovered"
+        className={`text-3xl md:text-5xl text-white shadow-xl font-bold font-serif absolute bottom-2 left-2 whitespace-nowrap overflow-hidden ${
+          !displayMokuHeader && "hidden"
+        }`}
+        style={{ lineHeight: 0.85 }}
+      >
+        <div>
+          {mokuHeader.split("").map((l, i) => {
+            return (
+              <motion.span
+                key={i}
+                variants={{
+                  initial: { y: 0 },
+                  hovered: { y: "-100%" },
+                }}
+                transition={{ delay: 0.1 * i }}
+                className="inline-block"
+              >
+                {l}
+              </motion.span>
+            );
+          })}
+        </div>
+        <div className="absolute inset-0">
+          {mokuHeader.split("").map((l, i) => {
+            return (
+              <motion.span
+                key={i}
+                variants={{
+                  initial: { y: "100%" },
+                  hovered: { y: 0 },
+                }}
+                transition={{ delay: 0.1 * i }}
+                className="inline-block"
+              >
+                {l}
+              </motion.span>
+            );
+          })}
+        </div>
+      </motion.a>
     </section>
   );
 }

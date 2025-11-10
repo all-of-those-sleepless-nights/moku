@@ -5,11 +5,34 @@ import StyleItYourWay from "../components/sections/style-it-your-way/style-it-yo
 import NewsList from "../components/sections/news/news-list";
 import ValuePropositionsList from "../components/sections/value-propositions/value-proposition-list";
 import HeroIntroAnimation from "../components/landing/hero-intro-animation";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 function HomePage() {
+  const [showIntro, setShowIntro] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowIntro(false);
+    }, 4500);
+
+    return () => clearTimeout(timer);
+  }, []);
   return (
-    <body className="relative">
-      <HeroIntroAnimation />
+    <div className="relative">
+      <AnimatePresence mode="wait">
+        {showIntro && (
+          <motion.div
+            key="hero-intro"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ delay: 4.5, duration: 0.5, ease: "easeInOut" }}
+          >
+            <HeroIntroAnimation />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <HeroBanner />
 
       <EverydayEssentials />
@@ -18,7 +41,7 @@ function HomePage() {
       <ValuePropositionsList />
 
       <NewsList />
-    </body>
+    </div>
   );
 }
 
